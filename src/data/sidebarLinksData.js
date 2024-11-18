@@ -4,7 +4,7 @@ import { IoIosArrowDown } from "react-icons/io";
 
 export const sidebarLinksData = [
   {
-    title: "Dashboard",
+    title: "Category",
     link: "/dashboard",
     Icon: MdDashboard,
   },

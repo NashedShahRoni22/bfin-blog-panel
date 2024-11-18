@@ -7,13 +7,14 @@ import bfinitLogo from "../../assets/logo/bfinit-logo.png";
 export default function Sidebar({ showSidebar, toggleSidebar }) {
   const [showSublinks, setShowSublinks] = useState("");
 
+  // Toggle Sublinks on click
   const toggleSublinks = (links) => {
     showSublinks ? setShowSublinks("") : setShowSublinks(links);
   };
 
   return (
     <nav
-      className={`absolute right-0 top-0 h-screen max-h-[1080px] w-44 bg-white p-5 lg:static lg:block ${showSidebar ? "block" : "hidden"}`}
+      className={`bg-subtle-white fixed right-0 top-0 z-10 h-screen max-h-[1080px] min-w-60 p-5 lg:static lg:block ${showSidebar ? "block" : "hidden"}`}
     >
       <div className="flex items-center justify-end">
         <AiOutlineClose
@@ -22,7 +23,7 @@ export default function Sidebar({ showSidebar, toggleSidebar }) {
         />
       </div>
 
-      <Link to="/dashboard" className="hidden lg:block">
+      <Link to="/" className="hidden lg:block">
         <img src={bfinitLogo} alt="bfinit logo" className="mx-auto w-20" />
       </Link>
 
@@ -32,18 +33,18 @@ export default function Sidebar({ showSidebar, toggleSidebar }) {
             {navItem.link ? (
               <Link
                 to={navItem.link}
-                className="flex w-full items-center gap-1.5 text-lg"
+                className="flex w-full items-center gap-1.5 text-lg text-neutral-700 hover:text-neutral-900"
               >
-                {<navItem.Icon />} {navItem.title}
+                {<navItem.Icon className="text-primary" />} {navItem.title}
               </Link>
             ) : (
               <>
                 <button
                   onClick={() => toggleSublinks(navItem.title)}
-                  className="flex w-full items-center justify-between text-lg"
+                  className="group flex w-full items-center justify-between text-lg"
                 >
-                  <p className="flex items-center gap-1.5">
-                    {<navItem.Icon />} {navItem.title}
+                  <p className="flex items-center gap-1.5 text-neutral-700 group-hover:text-neutral-900">
+                    {<navItem.Icon className="text-primary" />} {navItem.title}
                   </p>
                   <p>
                     {navItem.DropDownIcon && (

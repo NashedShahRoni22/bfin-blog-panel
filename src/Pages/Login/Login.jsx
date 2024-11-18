@@ -3,16 +3,35 @@ import { PiEye, PiEyeClosed } from "react-icons/pi";
 import bfinitLogo from "../../assets/logo/bfinit-logo.png";
 import shapes1 from "../../assets/shapes/shapes-1.png";
 import rectangle from "../../assets/shapes/rectangle.png";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
+
+  // Submit Login Form
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    if (email && password) {
+      localStorage.setItem("accessToken", "dummy access token");
+      navigate("/dashboard");
+    }
+  };
 
   return (
     <section className="flex min-h-screen flex-col font-nunito-sans md:mx-auto md:max-w-[1536px] md:flex-row lg:gap-x-6">
       {/* Login Form Container */}
       <div className="flex h-screen max-h-[1080px] w-full flex-col justify-center p-5 text-neutral-900 md:w-1/2">
-        <img src={bfinitLogo} alt="bfinit logo" className="w-28" />
-        <form className="flex flex-1 flex-col justify-center">
+        <img src={bfinitLogo} alt="bfinit logo" className="w-24" />
+        <form
+          onSubmit={handleSubmit}
+          className="mx-auto flex flex-1 flex-col justify-center md:w-3/4"
+        >
           <h1 className="text-center text-4xl font-bold md:text-left">
             Welcome Back!
           </h1>
@@ -60,7 +79,10 @@ export default function Login() {
             className="mb-6 mt-1.5 w-full rounded-lg border px-4 py-2 outline-none"
           />
 
-          <button className="w-full rounded-lg bg-primary px-4 py-2 text-xl font-semibold text-white">
+          <button
+            type="submit"
+            className="w-full rounded-lg bg-primary px-4 py-2 text-xl font-semibold text-white"
+          >
             Log in
           </button>
         </form>

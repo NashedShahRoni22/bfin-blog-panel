@@ -5,6 +5,7 @@ export default {
     extend: {
       colors: {
         primary: "#2d67b2",
+        "subtle-white": "#f5f6fa",
       },
       fontFamily: {
         "nunito-sans": ["Nunito Sans", "sans-serif"],
