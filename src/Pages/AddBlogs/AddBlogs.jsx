@@ -90,7 +90,7 @@ export default function AddBlogs() {
   };
 
   return (
-    <section className="h-screen w-full overflow-y-auto border-r-2 px-5 py-5 lg:px-10">
+    <section className="h-screen w-full overflow-y-auto px-5 py-5 lg:px-10">
       <h1 className="border-b pb-3 text-2xl font-semibold text-neutral-800">
         Add Blogs
       </h1>
@@ -111,7 +111,7 @@ export default function AddBlogs() {
                   {/* add new image button */}
                   <label
                     htmlFor="thumbnail"
-                    className="flex cursor-pointer items-center gap-1.5 rounded-md border border-primary bg-primary px-2.5 py-1.5 text-sm font-medium text-white transition-all hover:bg-[#285ca1]"
+                    className="hover:bg-primary-hover flex cursor-pointer items-center gap-1.5 rounded-md border border-primary bg-primary px-2.5 py-1.5 text-sm font-medium text-white transition-all"
                   >
                     <TbPhotoPlus className="text-base" /> <span>New Image</span>
                   </label>
@@ -128,7 +128,7 @@ export default function AddBlogs() {
               <>
                 <label
                   htmlFor="thumbnail"
-                  className="bg-subtle-white flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg"
+                  className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-subtle-white"
                 >
                   <FaCloudUploadAlt className="text-3xl" />
                   <span className="mt-1.5">Upload Thumbnail</span>
@@ -160,6 +160,17 @@ export default function AddBlogs() {
               type="text"
               name="title"
               id="title"
+              required
+              className="mb-6 mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 outline-none"
+            />
+            {/* Custom URL Filled */}
+            <label htmlFor="customURL" className="font-medium text-neutral-700">
+              Custom URL <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="customURL"
+              id="customURL"
               required
               className="mb-6 mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 outline-none"
             />

@@ -1,9 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../Pages/Login/Login";
+import PrivateRoute from "./PrivateRoute";
 import Main from "../Layout/Main";
 import Dashboard from "../Pages/Dashboard/Dashboard";
+import Category from "../Pages/Category/Category";
 import AddBlogs from "../Pages/AddBlogs/AddBlogs";
-import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/dashboard/category",
+        element: <Category />,
       },
       {
         path: "/dashboard/add-blogs",
