@@ -4,6 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import Main from "../Layout/Main";
 import Dashboard from "../Pages/Dashboard/Dashboard";
 import Category from "../Pages/Category/Category";
+import ManageBlogs from "../Pages/ManageBlogs/ManageBlogs";
 import AddBlogs from "../Pages/AddBlogs/AddBlogs";
 
 export const router = createBrowserRouter([
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: "/dashboard/category",
         element: <Category />,
+      },
+      {
+        path: "/dashboard/manage-blogs",
+        element: <ManageBlogs />,
       },
       {
         path: "/dashboard/add-blogs",
