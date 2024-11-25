@@ -6,6 +6,7 @@ import rectangle from "../../assets/shapes/rectangle.png";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const url = "https://api.blog.bfinit.com/api/v1/login";
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
 
@@ -18,8 +19,22 @@ export default function Login() {
     const password = form.password.value;
 
     if (email && password) {
-      localStorage.setItem("accessToken", "dummy access token");
-      navigate("/dashboard");
+      fetch(url, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.status === "success") {
+            localStorage.setItem("bfinitBlogAccessToken", data.data.token);
+            navigate("/dashboard");
+          } else {
+            alert(data.message);
+          }
+        });
     }
   };
 

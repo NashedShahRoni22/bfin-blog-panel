@@ -1,3 +1,5 @@
 # Todo
 
-Save accesstoken in local storage and wrap up Main layout with private route
+- Fix Add Blogs Custom URL
+- Add Update Blogs Feature
+- Add Log Out Feature

@@ -1,4 +1,37 @@
-export default function UpdateModal({ closeModal, category }) {
+export default function UpdateModal({
+  closeModal,
+  categories,
+  categoryName,
+  id,
+  setCategories,
+}) {
+  const accessToken = localStorage.getItem("bfinitBlogAccessToken");
+
+  // Handle Category Name Update on Form Submit
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const updatedName = e.target.updatedName.value;
+
+    fetch(`https://api.blog.bfinit.com/api/v1/update/${id}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ id, name: updatedName }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          const updatedCategories = categories.map((category) =>
+            category.id === id ? { ...category, name: updatedName } : category,
+          );
+          setCategories(updatedCategories);
+          closeModal();
+        }
+      });
+  };
+
   return (
     <div className="inline-block w-full rounded-lg bg-white pb-6 pt-4 shadow-2xl md:w-[27.5rem]">
       <p className="mb-6 border-b pb-2 text-center text-xl font-medium">
@@ -7,17 +40,18 @@ export default function UpdateModal({ closeModal, category }) {
 
       <p className="mb-6 px-4 leading-relaxed text-neutral-600">
         The current name is{" "}
-        <span className="font-semibold text-neutral-800">{category}</span>.{" "}
+        <span className="font-semibold text-neutral-800">{categoryName}</span>.{" "}
         <br />
         Enter the new name below to update it.
       </p>
 
-      <form className="px-4">
+      <form onSubmit={handleSubmit} className="px-4">
         <input
           type="text"
-          name="newCategory"
-          id="newCategory"
+          name="updatedName"
+          id="updatedName"
           placeholder="New Name"
+          defaultValue={categoryName}
           required
           className="mb-6 mt-2 w-full rounded-lg border border-gray-400 bg-subtle-white px-4 py-2 outline-none"
         />

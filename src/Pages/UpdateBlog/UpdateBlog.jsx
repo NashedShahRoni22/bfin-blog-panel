@@ -4,14 +4,28 @@ import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
 import { TbPhotoPlus } from "react-icons/tb";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import "react-quill/dist/quill.snow.css";
-import "./addBlogs.css";
+import { useParams } from "react-router-dom";
 
 export default function AddBlogs() {
+  const { id } = useParams();
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
   const thumbnailRef = useRef();
+  const [blogDetails, setBlogDetails] = useState({});
   const [categories, setCategories] = useState([]);
   const [selectedThumbnail, setSelectedThumbnail] = useState("");
   const [details, setDetails] = useState("");
+
+  // Fetch Currently Selected Blog
+  useEffect(() => {
+    fetch(`https://api.blog.bfinit.com/api/v1/single_blog_view/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.status) {
+          setBlogDetails(data.data);
+          setDetails(data.data.content);
+        }
+      });
+  }, [id]);
 
   // Modules for ReactQuill (toolbar options)
   const modules = {
@@ -117,56 +131,43 @@ export default function AddBlogs() {
       });
   }, [accessToken]);
 
+  console.log(blogDetails);
+
   return (
     <section className="h-screen w-full overflow-y-auto px-5 py-5 lg:px-10">
       <h1 className="border-b pb-3 text-2xl font-semibold text-neutral-800">
-        Add Blogs
+        Update Blog
       </h1>
       <form onSubmit={handleFormSubmit}>
         <div className="flex w-full flex-col gap-8 py-6">
           {/* Image Upload Container */}
           <div className="h-44 flex-col items-center justify-center rounded-lg border border-dashed border-primary/40 text-neutral-400">
-            {selectedThumbnail ? (
-              <div className="group relative h-full w-full">
-                <img
-                  src={selectedThumbnail}
-                  alt=""
-                  className="h-full w-full object-contain"
-                />
+            <div className="group relative h-full w-full">
+              <img
+                src={blogDetails?.thumbnail_url}
+                alt=""
+                loading="lazy"
+                className="h-full w-full object-contain"
+              />
 
-                {/*Add & Delete Button Overlay */}
-                <div className="absolute left-0 top-0 hidden h-full w-full items-center justify-center gap-x-6 bg-black/50 group-hover:flex">
-                  {/* add new image button */}
-                  <label
-                    htmlFor="thumbnail"
-                    className="flex cursor-pointer items-center gap-1.5 rounded-md border border-primary bg-primary px-2.5 py-1.5 text-sm font-medium text-white transition-all hover:bg-primary-hover"
-                  >
-                    <TbPhotoPlus className="text-base" /> <span>New Image</span>
-                  </label>
-                  {/* delete image button */}
-                  <button
-                    onClick={deleteThumbnail}
-                    className="flex items-center gap-1.5 rounded-md border border-red-400 bg-red-50 px-2.5 py-1.5 text-sm font-medium text-red-500 transition-all hover:bg-red-100"
-                  >
-                    <FaRegTrashAlt className="text-base" /> <span>Delete</span>
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <>
+              {/*Add & Delete Button Overlay */}
+              <div className="absolute left-0 top-0 hidden h-full w-full items-center justify-center gap-x-6 bg-black/50 group-hover:flex">
+                {/* add new image button */}
                 <label
                   htmlFor="thumbnail"
-                  className="flex h-full w-full cursor-pointer flex-col items-center justify-center rounded-lg bg-subtle-white"
+                  className="flex cursor-pointer items-center gap-1.5 rounded-md border border-primary bg-primary px-2.5 py-1.5 text-sm font-medium text-white transition-all hover:bg-primary-hover"
                 >
-                  <FaCloudUploadAlt className="text-3xl" />
-                  <span className="mt-1.5">Upload Thumbnail</span>
-                  <div className="mt-1 flex max-w-56 items-center gap-1.5 text-center text-sm md:max-w-full">
-                    <BsFillInfoCircleFill className="hidden md:block" />
-                    Image should be maximum 2 MB, with a 600 X 400 pixels.
-                  </div>
+                  <TbPhotoPlus className="text-base" /> <span>New Image</span>
                 </label>
-              </>
-            )}
+                {/* delete image button */}
+                <button
+                  onClick={deleteThumbnail}
+                  className="flex items-center gap-1.5 rounded-md border border-red-400 bg-red-50 px-2.5 py-1.5 text-sm font-medium text-red-500 transition-all hover:bg-red-100"
+                >
+                  <FaRegTrashAlt className="text-base" /> <span>Delete</span>
+                </button>
+              </div>
+            </div>
           </div>
           {/* Image Upload input tag Default Hidden */}
           <input
@@ -188,6 +189,7 @@ export default function AddBlogs() {
               type="text"
               name="title"
               id="title"
+              defaultValue={blogDetails?.title}
               required
               className="mb-6 mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 outline-none"
             />
@@ -196,9 +198,10 @@ export default function AddBlogs() {
               Custom URL <span className="text-red-500">*</span>
             </label>
             <input
-              type="url"
+              type="text"
               name="customURL"
               id="customURL"
+              defaultValue={blogDetails?.custom_url}
               required
               className="mb-6 mt-2 w-full rounded-lg border border-gray-400 px-4 py-2 outline-none"
             />
@@ -213,7 +216,11 @@ export default function AddBlogs() {
             >
               {categories &&
                 categories?.map((category) => (
-                  <option key={category.id} value={category.id}>
+                  <option
+                    key={category.id}
+                    value={category.id}
+                    selected={category.id == blogDetails?.category_id}
+                  >
                     {category.name}
                   </option>
                 ))}
