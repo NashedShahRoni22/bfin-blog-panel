@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 import ReactQuill from "react-quill";
-import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
+import { FaRegTrashAlt } from "react-icons/fa";
 import { TbPhotoPlus } from "react-icons/tb";
-import { BsFillInfoCircleFill } from "react-icons/bs";
 import "react-quill/dist/quill.snow.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function AddBlogs() {
-  const { id } = useParams();
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
+  const { id } = useParams();
+  const navigate = useNavigate();
   const thumbnailRef = useRef();
   const [blogDetails, setBlogDetails] = useState({});
   const [categories, setCategories] = useState([]);
@@ -77,7 +77,7 @@ export default function AddBlogs() {
   };
 
   // Handle Add New Blog Form Submit
-  const handleFormSubmit = (e) => {
+  const handleFormUpdate = (e) => {
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
@@ -85,11 +85,7 @@ export default function AddBlogs() {
     const category = form.category.value;
     const thumbnailFile = form.thumbnail.files?.[0];
 
-    if (!selectedThumbnail) {
-      return alert("Please Select Image");
-    }
-
-    if (thumbnailFile.size > 2 * 1024 * 1024) {
+    if (thumbnailFile?.size > 2 * 1024 * 1024) {
       return alert("Image must be less than 2 MB");
     }
 
@@ -102,16 +98,23 @@ export default function AddBlogs() {
     formData.append("custom_url", customURL);
     formData.append("category_id", category);
     formData.append("content", details);
-    formData.append("thumbnail", thumbnailFile);
+    if (thumbnailFile) {
+      formData.append("thumbnail", thumbnailFile);
+    }
     formData.append("status", 0);
 
-    fetch("https://api.blog.bfinit.com/api/v1/blogs", {
+    // Fetch to Updaete Blog
+    fetch(`https://api.blog.bfinit.com/api/v1/blog/${id}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${accessToken}` },
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.status) {
+          navigate("/dashboard/manage-blogs");
+        }
+      });
   };
 
   // Fetch All Categories
@@ -131,20 +134,18 @@ export default function AddBlogs() {
       });
   }, [accessToken]);
 
-  console.log(blogDetails);
-
   return (
     <section className="h-screen w-full overflow-y-auto px-5 py-5 lg:px-10">
       <h1 className="border-b pb-3 text-2xl font-semibold text-neutral-800">
         Update Blog
       </h1>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormUpdate}>
         <div className="flex w-full flex-col gap-8 py-6">
           {/* Image Upload Container */}
           <div className="h-44 flex-col items-center justify-center rounded-lg border border-dashed border-primary/40 text-neutral-400">
             <div className="group relative h-full w-full">
               <img
-                src={blogDetails?.thumbnail_url}
+                src={selectedThumbnail || blogDetails?.thumbnail_url}
                 alt=""
                 loading="lazy"
                 className="h-full w-full object-contain"
@@ -245,7 +246,7 @@ export default function AddBlogs() {
             type="submit"
             className="rounded-lg bg-primary px-4 py-2 text-lg font-medium text-white"
           >
-            Upload
+            Upload Blog
           </button>
         </div>
       </form>

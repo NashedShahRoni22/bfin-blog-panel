@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactQuill from "react-quill";
 import { FaCloudUploadAlt, FaRegTrashAlt } from "react-icons/fa";
 import { TbPhotoPlus } from "react-icons/tb";
@@ -8,6 +9,7 @@ import "./addBlogs.css";
 
 export default function AddBlogs() {
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
+  const navigate = useNavigate();
   const thumbnailRef = useRef();
   const [categories, setCategories] = useState([]);
   const [selectedThumbnail, setSelectedThumbnail] = useState("");
@@ -97,7 +99,15 @@ export default function AddBlogs() {
       body: formData,
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        if (data.status) {
+          navigate("/dashboard/manage-blogs");
+        } else {
+          alert(data.message);
+        }
+      });
+
+    form.reset();
   };
 
   // Fetch All Categories

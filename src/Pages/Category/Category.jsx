@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import CategoryListItem from "../../components/CategoryListItem";
 import "./category.css";
+import Loader from "../../components/Loader";
 
 export default function Category() {
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
+  const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
 
   // Handle Add New Category
@@ -24,8 +26,10 @@ export default function Category() {
         .then((res) => res.json())
         .then((data) => {
           if (data.status) {
+            setLoading(false);
             setCategories((oldCategories) => [data.data, ...oldCategories]);
           } else {
+            setLoading(false);
             alert(data.message);
           }
         });
@@ -45,8 +49,10 @@ export default function Category() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
+          setLoading(false);
           setCategories(data.data);
         } else {
+          setLoading(false);
           alert(data.message);
         }
       });
@@ -82,19 +88,23 @@ export default function Category() {
         </form>
         {/* Category List Container */}
         <div className="col-span-12 mt-8 lg:col-span-8 lg:mt-0">
-          <h3 className="rounded-lg bg-subtle-white px-4 py-2 text-xl font-medium text-neutral-800 shadow lg:mt-2 lg:py-1.5">
+          <h3 className="mb-3.5 rounded-lg bg-subtle-white px-4 py-2 text-xl font-medium text-neutral-800 shadow lg:mt-2 lg:py-1.5">
             All Categories
           </h3>
-          <ul className="custom-scrollbar mt-3.5 lg:h-[72vh] lg:overflow-y-auto">
-            {categories?.map((category) => (
-              <CategoryListItem
-                key={category.id}
-                categories={categories}
-                category={category}
-                setCategories={setCategories}
-              />
-            ))}
-          </ul>
+          {loading ? (
+            <Loader />
+          ) : (
+            <ul className="custom-scrollbar lg:h-[72vh] lg:overflow-y-auto">
+              {categories?.map((category) => (
+                <CategoryListItem
+                  key={category.id}
+                  categories={categories}
+                  category={category}
+                  setCategories={setCategories}
+                />
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </section>
