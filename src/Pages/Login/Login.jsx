@@ -30,7 +30,7 @@ export default function Login() {
         .then((data) => {
           if (data.status === "success") {
             localStorage.setItem("bfinitBlogAccessToken", data.data.token);
-            navigate("/dashboard");
+            navigate("/dashboard/manage-blogs");
           } else {
             alert(data.message);
           }
@@ -39,15 +39,15 @@ export default function Login() {
   };
 
   return (
-    <section className="flex min-h-screen flex-col font-nunito-sans md:mx-auto md:max-w-[1536px] md:flex-row lg:gap-x-6">
+    <section className="flex min-h-screen flex-col justify-center font-nunito-sans md:mx-auto md:flex-row lg:gap-x-6">
       {/* Login Form Container */}
-      <div className="flex h-screen max-h-[1080px] w-full flex-col justify-center p-5 text-neutral-900 md:w-1/2">
-        <img src={bfinitLogo} alt="bfinit logo" className="w-24" />
+      <div className="flex flex-col justify-center items-center p-5 text-neutral-900 md:w-1/2">       
         <form
           onSubmit={handleSubmit}
           className="mx-auto flex flex-1 flex-col justify-center md:w-3/4"
         >
-          <h1 className="text-center text-4xl font-bold md:text-left">
+          <img src={bfinitLogo} alt="bfinit logo" className="w-24" />
+          <h1 className="text-center text-4xl font-bold md:text-left my-5">
             Welcome Back!
           </h1>
           <p className="mb-10 mt-1.5 text-center text-lg font-medium text-neutral-700 md:text-left">

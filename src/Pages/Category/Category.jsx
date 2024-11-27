@@ -88,7 +88,7 @@ export default function Category() {
         </form>
         {/* Category List Container */}
         <div className="col-span-12 mt-8 lg:col-span-8 lg:mt-0">
-          <h3 className="mb-3.5 rounded-lg bg-subtle-white px-4 py-2 text-xl font-medium text-neutral-800 shadow lg:mt-2 lg:py-1.5">
+          <h3 className="bg-subtle-white px-4 py-2 text-xl font-medium text-neutral-800 lg:mt-2">
             All Categories
           </h3>
           {loading ? (

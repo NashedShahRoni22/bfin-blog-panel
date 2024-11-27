@@ -14,7 +14,7 @@ export default function Sidebar({ showSidebar, toggleSidebar }) {
 
   return (
     <nav
-      className={`bg-subtle-white fixed right-0 top-0 z-10 h-screen max-h-[1080px] min-w-60 p-5 lg:static lg:block ${showSidebar ? "block" : "hidden"}`}
+      className={`bg-subtle-white fixed right-0 top-0 z-10 h-screen max-h-[1080px] min-w-72 p-5 lg:static lg:block ${showSidebar ? "block" : "hidden"}`}
     >
       <div className="flex items-center justify-end">
         <AiOutlineClose

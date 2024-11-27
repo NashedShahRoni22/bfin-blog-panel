@@ -11,7 +11,7 @@ export default function Main() {
   };
 
   return (
-    <main className="relative mx-auto flex max-w-[1536px] flex-col bg-white md:flex-row">
+    <main className="relative mx-auto flex flex-col bg-white lg:flex-row">
       <TopNavbar toggleSidebar={toggleSidebar} />
       <Sidebar showSidebar={showSidebar} toggleSidebar={toggleSidebar} />
       <Outlet />
