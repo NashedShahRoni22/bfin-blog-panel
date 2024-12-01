@@ -19,17 +19,24 @@ export default function AddBlogs() {
 
   // Fetch Currently Selected Blog
   useEffect(() => {
-    // setLoader(true);
-    fetch(`https://api.blog.bfinit.com/api/v1/single_blog_view/${id}`)
+    setLoader(true);
+    fetch(`https://api.blog.bfinit.com/api/v1/blogs/${id}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
-        if (data.status === "success") {
+        console.log(data);
+        
+        if (data.status) {
           setBlogDetails(data.data);
           setDetails(data.data.content);
-          // setLoader(false);
+          setLoader(false);
         }
         else{
-
+          alert(data.message)
+          setLoader(false);
         }
       });
   }, [id]);
@@ -101,6 +108,7 @@ export default function AddBlogs() {
     }
 
     const formData = new FormData();
+    formData.append("_method", "put");
     formData.append("title", title);
     formData.append("custom_url", customURL);
     formData.append("category_id", category);
@@ -111,7 +119,7 @@ export default function AddBlogs() {
     formData.append("status", 0);
 
     // Fetch to Updaete Blog
-    fetch(`https://api.blog.bfinit.com/api/v1/blog/${id}`, {
+    fetch(`https://api.blog.bfinit.com/api/v1/blogs/${id}`, {
       method: "POST",
       headers: { Authorization: `Bearer ${accessToken}` },
       body: formData,
@@ -155,7 +163,7 @@ export default function AddBlogs() {
             <div className="h-44 flex-col items-center justify-center rounded-lg border border-dashed border-primary/40 text-neutral-400">
               <div className="group relative h-full w-full">
                 <img
-                  src={selectedThumbnail || blogDetails?.thumbnail_url}
+                  src={selectedThumbnail || blogDetails?.thumbnail}
                   alt=""
                   loading="lazy"
                   className="h-full w-full object-contain"

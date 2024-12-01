@@ -206,7 +206,7 @@ export default function AddBlogs() {
               Custom URL <span className="text-red-500">*</span>
             </label>
             <input
-              type="url"
+              type="text"
               name="customURL"
               id="customURL"
               required

@@ -11,9 +11,9 @@ export default function ManageBlogs() {
   const [categoryId, setCategoryId] = useState("");
 
   useEffect(() => {
-    let url = "https://api.blog.bfinit.com/api/v1/blogs";
-    if(categoryId !== ""){
-      url = `https://api.blog.bfinit.com/api/v1/filter_category/${categoryId}`
+    let url = "https://api.blog.bfinit.com/api/v1/filter_category";
+    if (categoryId !== "") {
+      url = `https://api.blog.bfinit.com/api/v1/filter_category/${categoryId}`;
     }
     fetch(url, {
       headers: {
@@ -21,10 +21,10 @@ export default function ManageBlogs() {
       },
     })
       .then((res) => res.json())
-      .then((data) => {        
+      .then((data) => {
         if (data.status) {
           setLoading(false);
-          setBlogs(data.data.Blog_posts);
+          setBlogs(data.data.data);
         } else {
           setLoading(false);
           alert(data.message);
@@ -81,6 +81,7 @@ export default function ManageBlogs() {
           className="mt-2 rounded-lg border border-gray-400 px-4 py-2 outline-none"
           onChange={(e) => setCategoryId(e.target.value)}
         >
+          <option value="">All</option>
           {categories &&
             categories?.map((category) => (
               <option key={category.id} value={category.id}>
@@ -110,7 +111,7 @@ export default function ManageBlogs() {
                   <tr key={blog.id} className="border text-sm text-gray-600">
                     <td className="px-6 py-3">{blog.id}</td>
                     <td className="px-6 py-3">{blog.title}</td>
-                    <td className="px-6 py-3">{blog.category_name}</td>
+                    <td className="px-6 py-3">{blog.category.name}</td>
                     <td className="px-6 py-3">
                       {blog.created_at.slice(0, 10)}
                     </td>
