@@ -4,14 +4,17 @@ import bfinitLogo from "../../assets/logo/bfinit-logo.png";
 import shapes1 from "../../assets/shapes/shapes-1.png";
 import rectangle from "../../assets/shapes/rectangle.png";
 import { useNavigate } from "react-router-dom";
+import { LiaSpinnerSolid } from "react-icons/lia";
 
 export default function Login() {
   const url = "https://api.blog.bfinit.com/api/v1/login";
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Submit Login Form
   const handleSubmit = (e) => {
+    setLoading(true);
     e.preventDefault();
 
     const form = e.target;
@@ -30,8 +33,10 @@ export default function Login() {
         .then((data) => {
           if (data.status === "success") {
             localStorage.setItem("bfinitBlogAccessToken", data.data.token);
-            navigate("/dashboard/manage-blogs");
+            navigate("/dashboard");
+            setLoading(false);
           } else {
+            setLoading(false);
             alert(data.message);
           }
         });
@@ -44,7 +49,7 @@ export default function Login() {
       <div className="flex flex-col justify-center items-center p-5 text-neutral-900 md:w-1/2">       
         <form
           onSubmit={handleSubmit}
-          className="mx-auto flex flex-1 flex-col justify-center md:w-3/4"
+          className="mx-auto w-full flex flex-1 flex-col justify-center md:w-3/4"
         >
           <img src={bfinitLogo} alt="bfinit logo" className="w-24" />
           <h1 className="text-center text-4xl font-bold md:text-left my-5">
@@ -96,9 +101,10 @@ export default function Login() {
 
           <button
             type="submit"
-            className="w-full rounded-lg bg-primary px-4 py-2 text-xl font-semibold text-white"
+            disabled={loading}
+            className={`w-full flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-xl font-semibold text-white ${loading ? "bg-primary/70" : "bg-primary"}`}
           >
-            Log in
+            Log in {loading && <LiaSpinnerSolid className="animate-spin text-2xl text-white" />}
           </button>
         </form>
       </div>

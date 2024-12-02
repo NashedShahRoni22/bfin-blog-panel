@@ -5,6 +5,7 @@ import { TbPhotoPlus } from "react-icons/tb";
 import "react-quill/dist/quill.snow.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
+import { LiaSpinnerSolid } from "react-icons/lia";
 
 export default function AddBlogs() {
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
@@ -15,7 +16,8 @@ export default function AddBlogs() {
   const [categories, setCategories] = useState([]);
   const [selectedThumbnail, setSelectedThumbnail] = useState("");
   const [details, setDetails] = useState("");
-  const [loader, setLoader] = useState("");
+  const [loader, setLoader] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Fetch Currently Selected Blog
   useEffect(() => {
@@ -28,14 +30,13 @@ export default function AddBlogs() {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
-        
+
         if (data.status) {
           setBlogDetails(data.data);
           setDetails(data.data.content);
           setLoader(false);
-        }
-        else{
-          alert(data.message)
+        } else {
+          alert(data.message);
           setLoader(false);
         }
       });
@@ -92,6 +93,7 @@ export default function AddBlogs() {
 
   // Handle Add New Blog Form Submit
   const handleFormUpdate = (e) => {
+    setLoading(true);
     e.preventDefault();
     const form = e.target;
     const title = form.title.value;
@@ -127,7 +129,8 @@ export default function AddBlogs() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
-          navigate("/dashboard/manage-blogs");
+          navigate("/dashboard");
+          setLoading(false);
         }
       });
   };
@@ -268,9 +271,12 @@ export default function AddBlogs() {
 
             <button
               type="submit"
-              className="rounded-lg bg-primary px-4 py-2 text-lg font-medium text-white"
+              className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-xl font-semibold text-white ${loading ? "bg-primary/70" : "bg-primary"}`}
             >
-              Upload Blog
+              Upload
+              {loading && (
+                <LiaSpinnerSolid className="animate-spin text-2xl text-white" />
+              )}
             </button>
           </div>
         </form>

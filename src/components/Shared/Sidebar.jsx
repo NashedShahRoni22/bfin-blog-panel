@@ -1,15 +1,39 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AiOutlineClose } from "react-icons/ai";
 import { sidebarLinksData } from "../../data/sidebarLinksData";
 import bfinitLogo from "../../assets/logo/bfinit-logo.png";
+import { LiaSpinnerSolid } from "react-icons/lia";
 
 export default function Sidebar({ showSidebar, toggleSidebar }) {
+  const accessToken = localStorage.getItem("bfinitBlogAccessToken");
   const [showSublinks, setShowSublinks] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Toggle Sublinks on click
   const toggleSublinks = (links) => {
     showSublinks ? setShowSublinks("") : setShowSublinks(links);
+  };
+
+  // Handle Logout
+  const handleLogout = () => {
+    setLoading(true);
+    fetch("https://api.blog.bfinit.com/api/v1/logout", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      if(data.status === "success"){
+        setLoading(false);
+        navigate("/");
+        localStorage.removeItem("bfinitBlogAccessToken");
+      }
+      setLoading(false);
+    })
   };
 
   return (
@@ -23,7 +47,7 @@ export default function Sidebar({ showSidebar, toggleSidebar }) {
         />
       </div>
 
-      <Link to="/" className="hidden lg:block">
+      <Link to="/dashboard" className="hidden lg:block">
         <img src={bfinitLogo} alt="bfinit logo" className="mx-auto w-20" />
       </Link>
 
@@ -68,6 +92,8 @@ export default function Sidebar({ showSidebar, toggleSidebar }) {
             )}
           </li>
         ))}
+
+        <button disabled={loading} onClick={handleLogout} className={`flex items-center justify-center gap-2 text-lg font-semibold transition-all duration-200 ease-in-out text-white w-full rounded-md py-2 ${loading ? "bg-primary/70" : "bg-primary hover:bg-primary-hover"}`}>Log out {loading && <LiaSpinnerSolid className="animate-spin text-2xl text-white" />}</button>
       </ul>
     </nav>
   );

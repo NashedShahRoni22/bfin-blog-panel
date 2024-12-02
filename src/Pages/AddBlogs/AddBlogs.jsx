@@ -6,6 +6,7 @@ import { TbPhotoPlus } from "react-icons/tb";
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import "react-quill/dist/quill.snow.css";
 import "./addBlogs.css";
+import { LiaSpinnerSolid } from "react-icons/lia";
 
 export default function AddBlogs() {
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
@@ -14,6 +15,7 @@ export default function AddBlogs() {
   const [categories, setCategories] = useState([]);
   const [selectedThumbnail, setSelectedThumbnail] = useState("");
   const [details, setDetails] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Modules for ReactQuill (toolbar options)
   const modules = {
@@ -67,6 +69,7 @@ export default function AddBlogs() {
   // Handle Add New Blog Form Submit
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    setLoading(true);
     const form = e.target;
     const title = form.title.value;
     const customURL = form.customURL.value;
@@ -101,13 +104,13 @@ export default function AddBlogs() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
-          navigate("/dashboard/manage-blogs");
+          navigate("/dashboard");
+          setLoading(false);
         } else {
           alert(data.message);
+          setLoading(false)
         }
       });
-
-    form.reset();
   };
 
   // Fetch All Categories
@@ -246,9 +249,10 @@ export default function AddBlogs() {
 
           <button
             type="submit"
-            className="rounded-lg bg-primary px-4 py-2 text-lg font-medium text-white"
-          >
+            className={`w-full flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-xl font-semibold text-white ${loading ? "bg-primary/70" : "bg-primary"}`}
+           >
             Upload
+            {loading && <LiaSpinnerSolid className="animate-spin text-2xl text-white" />}
           </button>
         </div>
       </form>

@@ -15,7 +15,7 @@ export const sidebarLinksData = [
     subLinks: [
       {
         title: "Manage Blogs",
-        link: "/dashboard/manage-blogs",
+        link: "/dashboard",
       },
       {
         title: "Add Blogs",

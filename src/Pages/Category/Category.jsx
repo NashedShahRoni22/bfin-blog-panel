@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import CategoryListItem from "../../components/CategoryListItem";
 import "./category.css";
 import Loader from "../../components/Loader";
+import { LiaSpinnerSolid } from "react-icons/lia";
 
 export default function Category() {
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
   const [loading, setLoading] = useState(true);
+  const [addLoading, setAddLoading] = useState(false);
   const [categories, setCategories] = useState([]);
 
   // Handle Add New Category
   const handleAddNewCategory = (e) => {
+    setAddLoading(true);
     e.preventDefault();
     const form = e.target;
     const newCategory = form.newCategory.value;
@@ -27,9 +30,11 @@ export default function Category() {
         .then((data) => {
           if (data.status) {
             setLoading(false);
+            setAddLoading(false);
             setCategories((oldCategories) => [data.data, ...oldCategories]);
           } else {
             setLoading(false);
+            setAddLoading(false);
             alert(data.message);
           }
         });
@@ -80,9 +85,9 @@ export default function Category() {
             />
             <button
               type="submit"
-              className="mx-auto block w-full rounded-lg bg-primary px-4 py-2 text-lg font-medium capitalize text-white lg:mx-0"
+              className="mx-auto flex justify-center w-full rounded-lg bg-primary px-4 py-2 text-lg font-medium capitalize text-white lg:mx-0"
             >
-              Add new category
+              {addLoading ? <LiaSpinnerSolid className="text-xl animate-spin" /> : "Add new category"}
             </button>
           </div>
         </form>

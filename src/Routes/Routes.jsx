@@ -21,13 +21,14 @@ export const router = createBrowserRouter([
     ),
     children: [
       {
+        path: "/dashboard",
+        element: <ManageBlogs />,
+      },
+      {
         path: "/dashboard/category",
         element: <Category />,
       },
-      {
-        path: "/dashboard/manage-blogs",
-        element: <ManageBlogs />,
-      },
+      
       {
         path: "/dashboard/add-blogs",
         element: <AddBlogs />,
