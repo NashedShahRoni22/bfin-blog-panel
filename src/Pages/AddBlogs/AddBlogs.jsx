@@ -94,7 +94,7 @@ export default function AddBlogs() {
     formData.append("category_id", category);
     formData.append("content", details);
     formData.append("thumbnail", thumbnailFile);
-    formData.append("status", 0);
+    formData.append("status", 1);
 
     fetch("https://api.blog.bfinit.com/api/v1/blogs", {
       method: "POST",

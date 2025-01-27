@@ -85,30 +85,42 @@ export default function Category() {
             />
             <button
               type="submit"
-              className="mx-auto flex justify-center w-full rounded-lg bg-primary px-4 py-2 text-lg font-medium capitalize text-white lg:mx-0"
+              className="mx-auto flex w-full justify-center rounded-lg bg-primary px-4 py-2 text-lg font-medium capitalize text-white lg:mx-0"
             >
-              {addLoading ? <LiaSpinnerSolid className="text-xl animate-spin" /> : "Add new category"}
+              {addLoading ? (
+                <LiaSpinnerSolid className="animate-spin text-xl" />
+              ) : (
+                "Add new category"
+              )}
             </button>
           </div>
         </form>
         {/* Category List Container */}
         <div className="col-span-12 mt-8 lg:col-span-8 lg:mt-0">
-          <h3 className="bg-subtle-white px-4 py-2 text-xl font-medium text-neutral-800 lg:mt-2">
-            All Categories
-          </h3>
           {loading ? (
             <Loader />
           ) : (
-            <ul className="custom-scrollbar lg:h-[72vh] lg:overflow-y-auto">
-              {categories?.map((category) => (
-                <CategoryListItem
-                  key={category.id}
-                  categories={categories}
-                  category={category}
-                  setCategories={setCategories}
-                />
-              ))}
-            </ul>
+            <table className="w-full">
+              <thead>
+                <tr className="border bg-gray-100 font-medium text-gray-700">
+                  <td className="p-1.5">SL</td>
+                  <td className="p-1.5">ID</td>
+                  <td className="p-1.5">Website</td>
+                  <td className="p-1.5">Action</td>
+                </tr>
+              </thead>
+              <tbody>
+                {categories?.map((category,i) => (
+                  <CategoryListItem
+                    key={category.id}
+                    i={i}
+                    categories={categories}
+                    category={category}
+                    setCategories={setCategories}
+                  />
+                ))}
+              </tbody>
+            </table>
           )}
         </div>
       </div>

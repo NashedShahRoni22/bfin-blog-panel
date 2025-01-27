@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FiEdit, FiTrash2 } from "react-icons/fi"; // Importing React Icons
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
 
@@ -98,7 +98,7 @@ export default function ManageBlogs() {
           <table className="min-w-full table-auto bg-white">
             <thead>
               <tr className="border bg-gray-100 text-left text-sm font-medium text-gray-700">
-                <th className="px-6 py-3">ID</th>
+                <th className="px-6 py-3">SL</th>
                 <th className="px-6 py-3">Title</th>
                 <th className="px-6 py-3">Website Name</th>
                 <th className="px-6 py-3">Date</th>
@@ -107,9 +107,9 @@ export default function ManageBlogs() {
             </thead>
             <tbody>
               {blogs &&
-                blogs.map((blog) => (
+                blogs.map((blog, i) => (
                   <tr key={blog.id} className="border text-sm text-gray-600">
-                    <td className="px-6 py-3">{blog.id}</td>
+                    <td className="px-6 py-3">{i+1}</td>
                     <td className="px-6 py-3">{blog.title}</td>
                     <td className="px-6 py-3">{blog.category.name}</td>
                     <td className="px-6 py-3">

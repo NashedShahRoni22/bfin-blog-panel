@@ -8,6 +8,7 @@ export default function CategoryListItem({
   categories,
   category,
   setCategories,
+  i
 }) {
   const { id, name } = category;
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -24,9 +25,11 @@ export default function CategoryListItem({
   };
 
   return (
-    <li className="flex items-center justify-between border-b px-4 py-3 text-neutral-700 last:border-b-0">
-      {name}
-      <div className="flex items-center gap-4">
+    <tr className="border">
+      <td className="p-1.5">{i+1}</td>
+      <td className="p-1.5">{name}</td>
+      <td className="p-1.5">{id}</td>
+      <td className="flex items-center gap-4 p-1.5">
         <FaRegEdit
           onClick={() => setShowUpdateModal(true)}
           className="min-w-fit cursor-pointer text-lg text-primary/75 transition-all duration-200 ease-in-out hover:text-primary-hover"
@@ -35,7 +38,7 @@ export default function CategoryListItem({
           onClick={() => setShowDeleteModal(true)}
           className="min-w-fit cursor-pointer text-lg text-red-300 transition-all duration-200 ease-in-out hover:text-red-500"
         />
-      </div>
+      </td>
       {/* Update Modal */}
       {showUpdateModal && (
         <ModalContainer>
@@ -60,6 +63,6 @@ export default function CategoryListItem({
           />
         </ModalContainer>
       )}
-    </li>
+    </tr>
   );
 }
