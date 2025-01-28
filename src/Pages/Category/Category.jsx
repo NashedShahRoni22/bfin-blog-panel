@@ -104,8 +104,8 @@ export default function Category() {
               <thead>
                 <tr className="border bg-gray-100 font-medium text-gray-700">
                   <td className="p-1.5">SL</td>
-                  <td className="p-1.5">ID</td>
                   <td className="p-1.5">Website</td>
+                  <td className="p-1.5">ID</td>
                   <td className="p-1.5">Action</td>
                 </tr>
               </thead>

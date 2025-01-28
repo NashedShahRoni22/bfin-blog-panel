@@ -118,7 +118,7 @@ export default function AddBlogs() {
     if (thumbnailFile) {
       formData.append("thumbnail", thumbnailFile);
     }
-    formData.append("status", 0);
+    formData.append("status", 1);
 
     // Fetch to Updaete Blog
     fetch(`https://api.blog.bfinit.com/api/v1/blogs/${id}`, {
@@ -273,7 +273,7 @@ export default function AddBlogs() {
               type="submit"
               className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-xl font-semibold text-white ${loading ? "bg-primary/70" : "bg-primary"}`}
             >
-              Upload
+              Update
               {loading && (
                 <LiaSpinnerSolid className="animate-spin text-2xl text-white" />
               )}
