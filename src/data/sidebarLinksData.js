@@ -1,8 +1,14 @@
 import { MdDashboard } from "react-icons/md";
 import { PiNotebookDuotone } from "react-icons/pi";
 import { IoIosArrowDown } from "react-icons/io";
+import { FaShoppingCart } from "react-icons/fa";
 
 export const sidebarLinksData = [
+  {
+    title: "Orders",
+    link: "/dashboard/orders",
+    Icon: FaShoppingCart,
+  },
   {
     title: "Category",
     link: "/dashboard/category",

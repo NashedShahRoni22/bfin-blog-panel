@@ -6,6 +6,7 @@ import Category from "../Pages/Category/Category";
 import ManageBlogs from "../Pages/ManageBlogs/ManageBlogs";
 import AddBlogs from "../Pages/AddBlogs/AddBlogs";
 import UpdateBlog from "../Pages/UpdateBlog/UpdateBlog";
+import Orders from "../Pages/orders/Orders";
 
 export const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ export const router = createBrowserRouter([
       </PrivateRoute>
     ),
     children: [
+      {
+        path: "/dashboard/orders",
+        element: <Orders />,
+      },
       {
         path: "/dashboard",
         element: <ManageBlogs />,

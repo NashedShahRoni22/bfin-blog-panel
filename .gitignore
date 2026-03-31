@@ -27,3 +27,6 @@ dist-ssr
 .env
 .env.*
 !.env.example
+
+# Local notes (DO NOT PUSH TO GITHUB)
+README_LOCAL.md
