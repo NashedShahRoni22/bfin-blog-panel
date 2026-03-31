@@ -66,7 +66,7 @@ export default function Category() {
   return (
     <section className="relative h-screen w-full px-5 py-5 lg:overflow-y-auto lg:px-10">
       <h1 className="mb-4 border-b pb-3 text-2xl font-semibold text-neutral-800">
-        Category
+        Websites
       </h1>
 
       <div className="grid grid-cols-12 lg:gap-x-12">
@@ -79,7 +79,7 @@ export default function Category() {
               type="text"
               name="newCategory"
               id="newCategory"
-              placeholder="Category Name"
+              placeholder="Website Name"
               required
               className="mb-6 mt-2 w-full rounded-lg border border-gray-400 bg-subtle-white px-4 py-2 outline-none"
             />
@@ -90,7 +90,7 @@ export default function Category() {
               {addLoading ? (
                 <LiaSpinnerSolid className="animate-spin text-xl" />
               ) : (
-                "Add new category"
+                "Add new website"
               )}
             </button>
           </div>
@@ -110,7 +110,7 @@ export default function Category() {
                 </tr>
               </thead>
               <tbody>
-                {categories?.map((category,i) => (
+                {categories?.map((category, i) => (
                   <CategoryListItem
                     key={category.id}
                     i={i}

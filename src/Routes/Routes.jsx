@@ -30,10 +30,10 @@ export const router = createBrowserRouter([
         element: <ManageBlogs />,
       },
       {
-        path: "/dashboard/category",
+        path: "/dashboard/websites",
         element: <Category />,
       },
-      
+
       {
         path: "/dashboard/add-blogs",
         element: <AddBlogs />,
