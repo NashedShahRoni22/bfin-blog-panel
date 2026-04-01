@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import Loader from "../../components/Loader";
 import { Link } from "react-router-dom";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 export default function ManageBlogs() {
   const accessToken = localStorage.getItem("bfinitBlogAccessToken");
@@ -9,11 +10,13 @@ export default function ManageBlogs() {
   const [blogs, setBlogs] = useState([]);
   const [categories, setCategories] = useState([]);
   const [categoryId, setCategoryId] = useState("");
+  const [page, setPage] = useState(1);
+  const [paginationData, setPaginationData] = useState([]);
 
   useEffect(() => {
-    let url = "https://api.blog.bfinit.com/api/v1/filter_category";
+    let url = `https://api.blog.bfinit.com/api/v1/filter_category?page=${page}&per_page=2`;
     if (categoryId !== "") {
-      url = `https://api.blog.bfinit.com/api/v1/filter_category/${categoryId}`;
+      url = `https://api.blog.bfinit.com/api/v1/filter_category/${categoryId}?page=${page}&per_page=2`;
     }
     fetch(url, {
       headers: {
@@ -23,6 +26,7 @@ export default function ManageBlogs() {
       .then((res) => res.json())
       .then((data) => {
         if (data.status) {
+          setPaginationData(data?.data);
           setLoading(false);
           setBlogs(data.data.data);
         } else {
@@ -30,7 +34,8 @@ export default function ManageBlogs() {
           alert(data.message);
         }
       });
-  }, [accessToken, categoryId]);
+  }, [accessToken, categoryId, page]);
+  const totalPage = Math.ceil(paginationData.total / paginationData.per_page);
 
   const handleBlogDelete = (id, title) => {
     const confirmDelete = window.confirm(
@@ -95,22 +100,33 @@ export default function ManageBlogs() {
         <Loader />
       ) : (
         <div className="overflow-x-auto py-6">
-          <table className="min-w-full table-auto bg-white">
+          <table className="min-w-full table-auto overflow-hidden rounded-lg bg-white">
             <thead>
-              <tr className="border bg-gray-100 text-left text-sm font-medium text-gray-700">
-                <th className="px-6 py-3">SL</th>
-                <th className="px-6 py-3">Title</th>
-                <th className="px-6 py-3">Website Name</th>
-                <th className="px-6 py-3">Date</th>
-                <th className="px-6 py-3">Action</th>
-              </tr>
+              {blogs.length <= 0 ? (
+                <p className="flex min-h-screen items-center justify-center text-center font-semibold">
+                  No Blogs Found
+                </p>
+              ) : (
+                <>
+                  <tr className="border bg-gray-100 text-left text-sm font-medium text-gray-700">
+                    <th className="px-6 py-3">SL</th>
+                    <th className="px-6 py-3">Title</th>
+                    <th className="px-6 py-3">Website Name</th>
+                    <th className="px-6 py-3">Date</th>
+                    <th className="px-6 py-3">Action</th>
+                  </tr>
+                </>
+              )}
             </thead>
-            <tbody>
+            <tbody className="">
               {blogs &&
                 blogs.map((blog, i) => (
-                  <tr key={blog.id} className="border text-sm text-gray-600">
-                    <td className="px-6 py-3">{i+1}</td>
-                    <td className="px-6 py-3">{blog.title}</td>
+                  <tr
+                    key={blog.id}
+                    className="border text-sm text-gray-600 shadow-sm hover:bg-gray-100"
+                  >
+                    <td className="px-6 py-3">{i + 1}</td>
+                    <td className="w-1/2 px-6 py-3">{blog.title}</td>
                     <td className="px-6 py-3">{blog.category.name}</td>
                     <td className="px-6 py-3">
                       {blog.created_at.slice(0, 10)}
@@ -133,6 +149,40 @@ export default function ManageBlogs() {
                 ))}
             </tbody>
           </table>
+          {/* pagination */}
+          <div className="mt-6 flex justify-center">
+            <div className="join">
+              {/* Left Arrow */}
+              <button onClick={() => setPage(page - 1)} disabled={page === 1}>
+                <FaArrowLeft className="mx-2 text-gray-600" />
+              </button>
+
+              {/* Page Numbers */}
+              {Array.from({ length: totalPage || 0 }, (_, i) => i + 1).map(
+                (pageNum) => (
+                  <button
+                    key={pageNum}
+                    onClick={() => setPage(pageNum)}
+                    className={`mx-2 ${
+                      pageNum === page
+                        ? "btn btn-xs rounded-sm bg-primary px-1.5 text-white"
+                        : "btn btn-outline btn-xs rounded-sm px-1.5 hover:bg-primary hover:text-white"
+                    }`}
+                  >
+                    {pageNum}
+                  </button>
+                ),
+              )}
+
+              {/* Right Arrow */}
+              <button
+                onClick={() => setPage(page + 1)}
+                disabled={page === totalPage}
+              >
+                <FaArrowRight className="mx-2 text-gray-600" />
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </section>

@@ -110,6 +110,7 @@ export default function Category() {
                 </tr>
               </thead>
               <tbody>
+                <tr></tr>
                 {categories?.map((category, i) => (
                   <CategoryListItem
                     key={category.id}

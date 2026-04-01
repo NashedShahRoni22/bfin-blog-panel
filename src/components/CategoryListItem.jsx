@@ -8,7 +8,7 @@ export default function CategoryListItem({
   categories,
   category,
   setCategories,
-  i
+  i,
 }) {
   const { id, name } = category;
   const [showUpdateModal, setShowUpdateModal] = useState(false);
@@ -25,8 +25,8 @@ export default function CategoryListItem({
   };
 
   return (
-    <tr className="border">
-      <td className="p-1.5">{i+1}</td>
+    <tr className="border hover:bg-gray-100">
+      <td className="p-1.5">{i + 1}</td>
       <td className="p-1.5">{name}</td>
       <td className="p-1.5">{id}</td>
       <td className="flex items-center gap-4 p-1.5">
