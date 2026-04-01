@@ -46,13 +46,13 @@ export default function Login() {
   return (
     <section className="flex min-h-screen flex-col justify-center font-nunito-sans md:mx-auto md:flex-row lg:gap-x-6">
       {/* Login Form Container */}
-      <div className="flex flex-col justify-center items-center p-5 text-neutral-900 md:w-1/2">       
+      <div className="flex flex-col items-center justify-center p-5 text-neutral-900 md:w-1/2">
         <form
           onSubmit={handleSubmit}
-          className="mx-auto w-full flex flex-1 flex-col justify-center md:w-3/4"
+          className="mx-auto flex w-full flex-1 flex-col justify-center md:w-3/4"
         >
           <img src={bfinitLogo} alt="bfinit logo" className="w-24" />
-          <h1 className="text-center text-4xl font-bold md:text-left my-5">
+          <h1 className="my-5 text-center text-4xl font-bold md:text-left">
             Welcome Back!
           </h1>
           <p className="mb-10 mt-1.5 text-center text-lg font-medium text-neutral-700 md:text-left">
@@ -102,9 +102,12 @@ export default function Login() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full flex items-center justify-center gap-2 rounded-lg px-4 py-2 text-xl font-semibold text-white ${loading ? "bg-primary/70" : "bg-primary"}`}
+            className={`flex w-full items-center justify-center gap-2 rounded-lg px-4 py-2 text-xl font-semibold text-white ${loading ? "bg-primary/70" : "bg-primary"}`}
           >
-            Log in {loading && <LiaSpinnerSolid className="animate-spin text-2xl text-white" />}
+            Log in{" "}
+            {loading && (
+              <LiaSpinnerSolid className="animate-spin text-2xl text-white" />
+            )}
           </button>
         </form>
       </div>
@@ -112,12 +115,16 @@ export default function Login() {
       {/* Right Side Banner Container */}
       <div className="relative hidden h-screen max-h-[1080px] w-full flex-col items-center justify-center overflow-hidden bg-[#4a3aff] px-5 md:flex md:w-1/2">
         <h2 className="text-center text-4xl font-bold text-white">
-          Effortless Blog Management
+          {/* Effortless Blog Management */}
+          Manage Everything. Effortlessly.
         </h2>
         <p className="mt-6 max-w-xl text-center text-lg text-neutral-200">
-          Take control of your Blogging journey with an intuitive and powerful
+          {/* Take control of your Blogging journey with an intuitive and powerful
           Dashboard. Add, edit and manage your Blog posts seamlessly, all in one
-          place.
+          place. */}
+          Streamline your content, communication, and commerce in one place,
+          with tools designed to help you stay organized, efficient, and in
+          control.
         </p>
 
         <img
